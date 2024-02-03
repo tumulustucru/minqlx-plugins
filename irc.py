@@ -297,7 +297,7 @@ class SimpleAsyncIrc(threading.Thread):
     @asyncio.coroutine
     def connect(self):
         self.reader, self.writer = yield from asyncio.open_connection(self.host, self.port)
-        self.write("NICK {0}\r\nUSER {0} 0 * :{0}\r\n".format(self.nickname))
+        self.write("CAP REQ :twitch.tv/commands\r\nPASS {TWITCH OAUTH TOKEN}\r\nNICK {0}\r\n".format(self.nickname))
         
         while not self.stop_event.is_set():
             line = yield from self.reader.readline()
